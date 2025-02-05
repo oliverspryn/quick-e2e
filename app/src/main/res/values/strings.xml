@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Edge-to-Edge</string>
+
+    <!-- region Tabs -->
+    <string name="navigation_home">Home</string>
+    <string name="navigation_notes">Notes</string>
+    <string name="navigation_profile">Profile</string>
+    <!-- endregion -->
+
+    <!-- region HomeFragment -->
+    <string name="go_to_photos">Go to Photos</string>
+    <string name="home_like">Like</string>
+    <string name="home_report">Report</string>
+
+    <string name="home_first_place">First Place</string>
+    <string name="home_first_place_subtitle">Across the Thames</string>
+    <string name="home_first_place_description">This is a view of the Palace of Westminster across the river Thames.</string>
+
+    <string name="home_second_place">Second Place</string>
+    <string name="home_second_place_subtitle">From the Air</string>
+    <string name="home_second_place_description">This is a view of the Palace of Westminster from the air.</string>
+    <!-- endregion -->
+
+    <!-- region PhotosFragment -->
+    <string name="photos_screen">Photos</string>
+    <string name="network_error">Could not load the list of images</string>
+    <string name="photo_id">ID:</string>
+    <!-- endregion -->
+
+    <!-- region DetailsFragment -->
+    <string name="details_screen">Photo</string>
+    <string name="details_button_label">View Online</string>
+    <!-- endregion -->
+
+    <!-- region HttpNavigator -->
+    <string name="browser_unavailable">We were unable to open this web page on your device. Please consider enabling your phone\'s web browser or downloading Chrome from the Google Play store.</string>
+    <string name="ok">OK</string>
+    <!-- endregion -->
+</resources>

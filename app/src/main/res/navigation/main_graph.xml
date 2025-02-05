@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@+id/home_fragment">
+
+    <custom-fragment
+        android:id="@+id/home_fragment"
+        android:name="com.oliverspryn.android.edgetoedge.home.HomeFragment"
+        android:label="@string/navigation_home"
+        tools:layout="@layout/home_fragment">
+
+        <action
+            android:id="@+id/action_home_fragment_to_photos_fragment"
+            app:destination="@+id/photo_list_fragment" />
+    </custom-fragment>
+
+    <custom-fragment
+        android:id="@+id/photo_list_fragment"
+        android:name="com.oliverspryn.android.edgetoedge.photos.PhotosFragment"
+        android:label="@string/photos_screen"
+        app:showTabs="false"
+        tools:layout="@layout/photos_fragment">
+
+        <action
+            android:id="@+id/action_photo_list_fragment_to_details_fragment"
+            app:destination="@+id/details_fragment" />
+    </custom-fragment>
+
+    <custom-fragment
+        android:id="@+id/details_fragment"
+        android:name="com.oliverspryn.android.edgetoedge.details.DetailsFragment"
+        android:label="@string/details_screen"
+        app:showTabs="false"
+        tools:layout="@layout/details_fragment">
+
+        <argument
+            android:name="photo"
+            app:argType="com.oliverspryn.android.edgetoedge.photos.PhotosModel" />
+
+        <action
+            android:id="@+id/action_details_fragment_to_preview_picture_url"
+            app:destination="@+id/preview_picture_url">
+
+            <argument
+                android:name="uri"
+                app:argType="android.net.Uri"
+                app:nullable="false" />
+        </action>
+    </custom-fragment>
+
+    <http
+        android:id="@+id/preview_picture_url"
+        tools:layout="@layout/graph_placeholder_http" />
+</navigation>

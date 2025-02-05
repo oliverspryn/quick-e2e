@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomFragmentNavigator">
+        <attr name="showTabs" format="boolean" />
+        <attr name="showToolbar" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="HttpNavigator">
+        <attr name="url" format="string" />
+    </declare-styleable>
+</resources>
