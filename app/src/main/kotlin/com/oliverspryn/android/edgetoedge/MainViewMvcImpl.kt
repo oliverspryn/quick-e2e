@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.oliverspryn.android.edgetoedge.mvc.BaseViewMvc
@@ -14,6 +15,7 @@ class MainViewMvcImpl(
 ) : BaseViewMvc(), MainViewMvc {
 
     private val appBar: AppBarLayout
+    private val root: ConstraintLayout
     private val tabs: BottomNavigationView
     private val title: TextView
 
@@ -21,6 +23,7 @@ class MainViewMvcImpl(
         rootView = inflater.inflate(R.layout.activity_main, parent, false)
 
         appBar = findViewById(R.id.app_bar)
+        root = findViewById(R.id.root)
         tabs = findViewById(R.id.tabs)
         title = findViewById(R.id.title)
     }
