@@ -8,6 +8,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.google.android.material.button.MaterialButton
 import com.oliverspryn.android.edgetoedge.R
+import com.oliverspryn.android.edgetoedge.extensions.applyBottomAndSideInsets
+import com.oliverspryn.android.edgetoedge.extensions.applySideInsets
 import com.oliverspryn.android.edgetoedge.mvc.BaseObservableViewMvc
 import com.oliverspryn.android.edgetoedge.wrappers.PicassoForwarder
 
@@ -39,6 +41,10 @@ class DetailsViewMvcImpl(
         title = findViewById(R.id.full_title)
 
         button.setOnClickListener(this)
+
+        photo.applySideInsets()
+        title.applySideInsets()
+        button.applyBottomAndSideInsets()
     }
 
     // region DetailsViewMvc

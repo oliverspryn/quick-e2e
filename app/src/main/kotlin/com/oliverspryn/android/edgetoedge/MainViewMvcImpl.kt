@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.oliverspryn.android.edgetoedge.extensions.applySideInsets
 import com.oliverspryn.android.edgetoedge.mvc.BaseViewMvc
 
 class MainViewMvcImpl(
@@ -26,6 +27,8 @@ class MainViewMvcImpl(
         root = findViewById(R.id.root)
         tabs = findViewById(R.id.tabs)
         title = findViewById(R.id.title)
+
+        title.applySideInsets()
     }
 
     override fun setTitle(title: String) {

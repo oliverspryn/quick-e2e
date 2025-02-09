@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.oliverspryn.android.edgetoedge.R
+import com.oliverspryn.android.edgetoedge.extensions.applySideInsets
 import com.oliverspryn.android.edgetoedge.mvc.BaseObservableViewMvc
 
 class HomeViewMvcImpl(
@@ -26,6 +27,10 @@ class HomeViewMvcImpl(
         secondPlaceCard = findViewById(R.id.second_place)
 
         photoGalleryButton.setOnClickListener(this)
+
+        photoGalleryButton.applySideInsets()
+        firstPlaceCard.applySideInsets()
+        secondPlaceCard.applySideInsets()
     }
 
     override fun onClick(view: View?) {
