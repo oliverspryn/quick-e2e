@@ -1,0 +1,37 @@
+name: Publish Library to the Central Repository
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Write Out Secrets to Gradle
+        run: |
+          echo centralUsername=$CENTRAL_REPOSITORY_USERNAME >> gradle.properties
+          echo centralPassword=$CENTRAL_REPOSITORY_PASSWORD >> gradle.properties
+          echo GPG_SIGNING_KEY=$GPG_SIGNING_KEY >> gradle.properties
+          echo GPG_SIGNING_KEY_PASSWORD=$GPG_SIGNING_KEY_PASSWORD >> gradle.properties
+        env:
+          CENTRAL_REPOSITORY_USERNAME: ${{ secrets.CENTRAL_REPOSITORY_USERNAME }}
+          CENTRAL_REPOSITORY_PASSWORD: ${{ secrets.CENTRAL_REPOSITORY_PASSWORD }}
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+          GPG_SIGNING_KEY_PASSWORD: ${{ secrets.GPG_SIGNING_KEY_PASSWORD }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Publish the Library
+        run: ./gradlew publishQuickE2EPublicationToCentralRepository --max-workers 1 closeAndReleaseStagingRepositories
