@@ -8,9 +8,11 @@ import com.oliverspryn.gradle.extension.plugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.repositories.PasswordCredentials
+import org.gradle.api.credentials.HttpHeaderCredentials
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.authentication.http.BasicAuthentication
+import org.gradle.authentication.http.HttpHeaderAuthentication
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.credentials
@@ -18,8 +20,11 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.plugins.signing.SigningExtension
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 class CentralRepositoryConventionPlugin : Plugin<Project> {
+    @OptIn(ExperimentalEncodingApi::class) // Base64 encoding is experimental
     override fun apply(target: Project) {
         with(target) {
             plugins {
@@ -85,16 +90,23 @@ class CentralRepositoryConventionPlugin : Plugin<Project> {
 
                 repositories {
                     maven {
-                        val releaseUri = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                        val snapshotUri = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                        val releaseUri = uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
+                        val snapshotUri = uri("https://central.sonatype.com/repository/maven-snapshots/")
+
+                        val centralUsername by propertyValue("CENTRAL_REPOSITORY_USERNAME")
+                        val centralPassword by propertyValue("CENTRAL_REPOSITORY_PASSWORD")
+                        val base64AuthToken = Base64.Default.encode("$centralUsername:$centralPassword".toByteArray())
 
                         name = "central"
                         url = if (CentralRepositoryConfig.Artifact.VERSION.endsWith("SNAPSHOT")) snapshotUri else releaseUri
 
-                        credentials(PasswordCredentials::class)
+                        credentials(HttpHeaderCredentials::class) {
+                            name = "Authorization"
+                            value = "Bearer $base64AuthToken"
+                        }
 
                         authentication {
-                            create<BasicAuthentication>("basic")
+                            create<HttpHeaderAuthentication>("header")
                         }
                     }
                 }
