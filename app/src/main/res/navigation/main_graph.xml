@@ -7,7 +7,7 @@
 
     <custom-fragment
         android:id="@+id/home_fragment"
-        android:name="com.oliverspryn.android.edgetoedge.home.HomeFragment"
+        android:name="com.oliverspryn.android.quicke2e.sample.home.HomeFragment"
         android:label="@string/navigation_home"
         tools:layout="@layout/home_fragment">
 
@@ -18,7 +18,7 @@
 
     <custom-fragment
         android:id="@+id/photo_list_fragment"
-        android:name="com.oliverspryn.android.edgetoedge.photos.PhotosFragment"
+        android:name="com.oliverspryn.android.quicke2e.sample.photos.PhotosFragment"
         android:label="@string/photos_screen"
         app:showTabs="false"
         tools:layout="@layout/photos_fragment">
@@ -30,14 +30,14 @@
 
     <custom-fragment
         android:id="@+id/details_fragment"
-        android:name="com.oliverspryn.android.edgetoedge.details.DetailsFragment"
+        android:name="com.oliverspryn.android.quicke2e.sample.details.DetailsFragment"
         android:label="@string/details_screen"
         app:showTabs="false"
         tools:layout="@layout/details_fragment">
 
         <argument
             android:name="photo"
-            app:argType="com.oliverspryn.android.edgetoedge.photos.PhotosModel" />
+            app:argType="com.oliverspryn.android.quicke2e.sample.photos.PhotosModel" />
 
         <action
             android:id="@+id/action_details_fragment_to_preview_picture_url"

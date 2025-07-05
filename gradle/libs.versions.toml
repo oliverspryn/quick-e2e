@@ -1,0 +1,84 @@
+[versions]
+# Core
+agp = "8.11.0"
+dokka = "2.0.0"
+hilt = "2.56.2"
+kotlin = "2.2.0"     # KSP and Kotlin must...
+ksp = "2.2.0-2.0.2"  # ... share the same major.minor.patch version
+nexus = "2.0.0"
+
+# AndroidX
+appcompat = "1.7.1"
+constraintlayout = "2.2.1"
+material = "1.12.0"
+navigation = "2.9.1"
+
+# Network
+moshi = "1.15.2"
+retrofit = "3.0.0"
+
+# RxJava
+rxandroid = "3.0.2"
+rxjava = "3.1.10"
+
+# Other
+coil = "3.2.0"
+desugaring = "2.1.5"
+
+[libraries]
+# AndroidX
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+navigation-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# Build Logic
+agp = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+dokka = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
+kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
+# Dagger Hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+
+# Network
+moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
+moshi-adapters = { group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "moshi" }
+moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+retrofit-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
+
+# RxJava
+rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
+rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
+
+# Other
+coil = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
+desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
+
+[plugins]
+# Core
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+nexus = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus" }
+
+# Convention Plugins
+convention-app = { id = "convention.app", version = "unspecified" }
+convention-centralrepository = { id = "convention.centralrepository", version = "unspecified" }
+convention-coil = { id = "convention.coil", version = "unspecified" }
+convention-dokka = { id = "convention.dokka", version = "unspecified" }
+convention-hilt = { id = "convention.hilt", version = "unspecified" }
+convention-library = { id = "convention.library", version = "unspecified" }
+convention-navigation = { id = "convention.navigation", version = "unspecified" }
+convention-network = { id = "convention.network", version = "unspecified" }
+convention-rxjava = { id = "convention.rxjava", version = "unspecified" }
