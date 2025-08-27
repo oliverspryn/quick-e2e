@@ -24,6 +24,7 @@ dependencies {
     compileOnly(libs.agp)
     compileOnly(libs.dokka)
     compileOnly(libs.kotlin)
+    compileOnly(libs.jreleaser)
 }
 
 gradlePlugin {

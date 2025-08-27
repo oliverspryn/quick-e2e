@@ -4,7 +4,9 @@ import com.android.build.api.dsl.LibraryExtension
 import com.oliverspryn.gradle.BuildConfig
 import com.oliverspryn.gradle.CentralRepositoryConfig
 import com.oliverspryn.gradle.delegate.propertyValue
+import com.oliverspryn.gradle.extension.plugin
 import com.oliverspryn.gradle.extension.plugins
+import org.bouncycastle.cms.RecipientId.password
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.repositories.PasswordCredentials
@@ -20,8 +22,11 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.plugins.signing.SigningExtension
+import org.jreleaser.gradle.plugin.JReleaserExtension
+import org.jreleaser.model.Active
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlin.io.path.toPath
 
 class CentralRepositoryConventionPlugin : Plugin<Project> {
     @OptIn(ExperimentalEncodingApi::class) // Base64 encoding is experimental
@@ -29,6 +34,7 @@ class CentralRepositoryConventionPlugin : Plugin<Project> {
         with(target) {
             plugins {
                 apply("maven-publish")
+                apply(plugin("jreleaser"))
                 apply("signing")
             }
 
@@ -90,34 +96,54 @@ class CentralRepositoryConventionPlugin : Plugin<Project> {
 
                 repositories {
                     maven {
-                        val releaseUri = uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
-                        val snapshotUri = uri("https://central.sonatype.com/repository/maven-snapshots/")
-
-                        val centralUsername by propertyValue("CENTRAL_REPOSITORY_USERNAME")
-                        val centralPassword by propertyValue("CENTRAL_REPOSITORY_PASSWORD")
-                        val base64AuthToken = Base64.Default.encode("$centralUsername:$centralPassword".toByteArray())
-
-                        name = "central"
-                        url = if (CentralRepositoryConfig.Artifact.VERSION.endsWith("SNAPSHOT")) snapshotUri else releaseUri
-
-                        credentials(HttpHeaderCredentials::class) {
-                            name = "Authorization"
-                            value = "Bearer $base64AuthToken"
-                        }
-
-                        authentication {
-                            create<HttpHeaderAuthentication>("header")
-                        }
+                        name = "local"
+                        url = uri(layout.buildDirectory.dir("staging-deploy"))
                     }
                 }
             }
 
             extensions.configure<SigningExtension> {
-                val gpgSigningKey by propertyValue("GPG_SIGNING_KEY")
-                val gpgSigningKeyPassword by propertyValue("GPG_SIGNING_KEY_PASSWORD")
+                val privateKeyString by propertyValue("GPG_SIGNING_PRIVATE_KEY")
+                val keyPassword by propertyValue("GPG_SIGNING_KEY_PASSWORD")
 
-                useInMemoryPgpKeys(gpgSigningKey, gpgSigningKeyPassword)
+                useInMemoryPgpKeys(privateKeyString, keyPassword)
                 sign(extensions.getByType<PublishingExtension>().publications[CentralRepositoryConfig.LIBRARY_NAME])
+            }
+
+            extensions.configure<JReleaserExtension> {
+                val centralUsername by propertyValue("CENTRAL_REPOSITORY_USERNAME")
+                val centralPassword by propertyValue("CENTRAL_REPOSITORY_PASSWORD")
+
+                val publicKeyString by propertyValue("GPG_SIGNING_PUBLIC_KEY")
+                val privateKeyString by propertyValue("GPG_SIGNING_PRIVATE_KEY")
+                val keyPassword by propertyValue("GPG_SIGNING_KEY_PASSWORD")
+
+                gitRootSearch.set(true)
+
+                signing {
+                    active.set(Active.ALWAYS)
+                    armored.set(true)
+
+                    publicKey.set(publicKeyString)
+                    secretKey.set(privateKeyString)
+                    passphrase.set(keyPassword)
+                }
+
+                deploy {
+                    maven {
+                        mavenCentral({
+                            register("sonatype") {
+                                active.set(Active.ALWAYS)
+                                url.set("https://central.sonatype.com/api/v1/publisher")
+                                stagingRepository(uri(layout.buildDirectory.dir("staging-deploy")).toPath().toString())
+
+                                username.set(centralUsername)
+                                password.set(centralPassword)
+                                sign.set(true)
+                            }
+                        })
+                    }
+                }
             }
         }
     }
